@@ -72,7 +72,7 @@ class ClockIn(object):
             S = res.content.decode()
 
         try:
-            old_infos = re.findall(r'oldInfo: ({[^\n]+})', html)
+            old_infos = re.findall(r'oldInfo: ({[^\n]+})', str(html))
             if len(old_infos) != 0:
                 old_info = json.loads(old_infos[0])
             else:
@@ -80,8 +80,8 @@ class ClockIn(object):
 
             new_info_tmp = json.loads(re.findall(r'def = ({[^\n]+})', html)[0])
             new_id = new_info_tmp['id']
-            name = re.findall(r'realname: "([^\"]+)",', html)[0]
-            number = re.findall(r"number: '([^\']+)',", html)[0]
+            name = re.findall(r'realname: "([^\"]+)",', str(html))[0]
+            number = re.findall(r"number: '([^\']+)',", str(html))[0]
         except IndexError:
             raise RegexMatchError('Relative info not found in html with regex')
         except json.decoder.JSONDecodeError:
@@ -108,7 +108,7 @@ class ClockIn(object):
         new_info['szgjcs'] = ""
 
         # 2021.08.05 Fix 2
-        magics = re.findall(r'"([0-9a-f]{32})":\s*"([^\"]+)"', html)
+        magics = re.findall(r'"([0-9a-f]{32})":\s*"([^\"]+)"', str(html))
         for item in magics:
             new_info[item[0]] = item[1]
 
