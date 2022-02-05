@@ -78,7 +78,7 @@ class ClockIn(object):
             else:
                 raise RegexMatchError("未发现缓存信息，请先至少手动成功打卡一次再运行脚本")
 
-            new_info_tmp = json.loads(re.findall(r'def = ({[^\n]+})', html)[0])
+            new_info_tmp = json.loads(re.findall(r'def = ({[^\n]+})', str(html))[0])
             new_id = new_info_tmp['id']
             name = re.findall(r'realname: "([^\"]+)",', str(html))[0]
             number = re.findall(r"number: '([^\']+)',", str(html))[0]
