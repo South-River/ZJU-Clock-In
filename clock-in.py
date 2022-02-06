@@ -58,7 +58,6 @@ class ClockIn(object):
     def post(self):
         """Post the hitcard info"""
         res = self.sess.post(self.SAVE_URL, data=self.info, headers=self.HEADERS)
-        print(self.info)
         return json.loads(res.text)
 
     def get_date(self):
