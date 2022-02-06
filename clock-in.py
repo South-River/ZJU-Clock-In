@@ -1,3 +1,4 @@
+
 # -*- coding: utf-8 -*-
 
 # 打卡脚修改自ZJU-nCov-Hitcarder的开源代码，感谢这位同学开源的代码
@@ -11,7 +12,6 @@ import sys
 
 class ClockIn(object):
     """Hit card class
-
     Attributes:
         username: (str) 浙大统一认证平台用户名（一般为学号）
         password: (str) 浙大统一认证平台密码
@@ -58,6 +58,7 @@ class ClockIn(object):
     def post(self):
         """Post the hitcard info"""
         res = self.sess.post(self.SAVE_URL, data=self.info, headers=self.HEADERS)
+        print(self.info)
         return json.loads(res.text)
 
     def get_date(self):
@@ -69,7 +70,7 @@ class ClockIn(object):
         """Get hitcard info, which is the old info with updated new time."""
         if not html:
             res = self.sess.get(self.BASE_URL, headers=self.HEADERS)
-            S = res.content.decode()
+            html = res.content.decode()
 
         try:
             old_infos = re.findall(r'oldInfo: ({[^\n]+})', str(html))
@@ -142,7 +143,6 @@ class DecodeError(Exception):
 
 def main(username, password):
     """Hit card process
-
     Arguments:
         username: (str) 浙大统一认证平台用户名（一般为学号）
         password: (str) 浙大统一认证平台密码
