@@ -56,7 +56,7 @@ class ClockIn(object):
             if self.sckey:
                 title = u'登陆失败'
                 content = '登陆失败，请核实账号密码重新登陆'
-                data = {'text':title, 'desp:content}
+                data = {'text':title, 'desp':content}
                 requests.post(f'http://sc.ftqq.com/{self.sckey}.send',data}
             raise LoginError('登录失败，请核实账号密码重新登录')
         return self.sess
