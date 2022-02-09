@@ -85,7 +85,7 @@ class ClockIn(object):
                 if self.sckey:
                     title = u'未发现缓存信息'
                     content = '未发现缓存信息，请先至少手动成功打卡一次再运行脚本'
-                    data = {'text':title, 'desp:content}
+                    data = {'text':title, 'desp:content)
                     requests.post(f'http://sc.ftqq.com/{self.sckey}.send',data)
                 raise RegexMatchError("未发现缓存信息，请先至少手动成功打卡一次再运行脚本")
 
