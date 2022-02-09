@@ -151,7 +151,7 @@ class DecodeError(Exception):
     pass
 
 
-def main(username, password，sckey=None):
+def main(username, password, sckey=None):
     """Hit card process
     Arguments:
         username: (str) 浙大统一认证平台用户名（一般为学号）
