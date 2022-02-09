@@ -24,5 +24,6 @@ jobs:
         env:
           ACCOUNT: ${{ secrets.ACCOUNT }}
           PASSWORD: ${{ secrets.PASSWORD }}
+          SCKEY: ${{ secrets.SCKEY }}
         run: |
-          python3 clock-in.py ${ACCOUNT} ${PASSWORD}
+          python3 clock-in.py ${ACCOUNT} ${PASSWORD} ${SCKEY}
