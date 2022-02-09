@@ -57,7 +57,7 @@ class ClockIn(object):
                 title = u'登陆失败'
                 content = '登陆失败，请核实账号密码重新登陆'
                 data = {'text':title, 'desp':content}
-                requests.post(f'http://sc.ftqq.com/{self.sckey}.send',data}
+                requests.post(f'http://sc.ftqq.com/{self.sckey}.send',data)
             raise LoginError('登录失败，请核实账号密码重新登录')
         return self.sess
 
@@ -86,7 +86,7 @@ class ClockIn(object):
                     title = u'未发现缓存信息'
                     content = '未发现缓存信息，请先至少手动成功打卡一次再运行脚本'
                     data = {'text':title, 'desp:content}
-                    requests.post(f'http://sc.ftqq.com/{self.sckey}.send',data}
+                    requests.post(f'http://sc.ftqq.com/{self.sckey}.send',data)
                 raise RegexMatchError("未发现缓存信息，请先至少手动成功打卡一次再运行脚本")
 
             new_info_tmp = json.loads(re.findall(r'def = ({[^\n]+})', str(html))[0])
