@@ -27,9 +27,10 @@ class ClockIn(object):
     HEADERS = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.100 Safari/537.36"
     }
-    def __init__(self, username, password):
+    def __init__(self, username, password,sckey = None):
         self.username = username
         self.password = password
+        self.sckey = sckey
         self.sess = requests.Session()
 
     def login(self):
@@ -52,6 +53,11 @@ class ClockIn(object):
 
         # check if login successfully
         if '统一身份认证' in res.content.decode():
+            if self.sckey:
+                title = u'登陆失败'
+                content = '登陆失败，请核实账号密码重新登陆'
+                data = {'text':title, 'desp:content}
+                requests.post(f'http://sc.ftqq.com/{self.sckey}.send',data}
             raise LoginError('登录失败，请核实账号密码重新登录')
         return self.sess
 
@@ -76,6 +82,11 @@ class ClockIn(object):
             if len(old_infos) != 0:
                 old_info = json.loads(old_infos[0])
             else:
+                if self.sckey:
+                    title = u'未发现缓存信息'
+                    content = '未发现缓存信息，请先至少手动成功打卡一次再运行脚本'
+                    data = {'text':title, 'desp:content}
+                    requests.post(f'http://sc.ftqq.com/{self.sckey}.send',data}
                 raise RegexMatchError("未发现缓存信息，请先至少手动成功打卡一次再运行脚本")
 
             new_info_tmp = json.loads(re.findall(r'def = ({[^\n]+})', str(html))[0])
@@ -140,7 +151,7 @@ class DecodeError(Exception):
     pass
 
 
-def main(username, password):
+def main(username, password，sckey=None):
     """Hit card process
     Arguments:
         username: (str) 浙大统一认证平台用户名（一般为学号）
@@ -150,7 +161,7 @@ def main(username, password):
           datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
     print("🚌 打卡任务启动")
 
-    dk = ClockIn(username, password)
+    dk = ClockIn(username, password,sckey)
 
     print("登录到浙大统一身份认证平台...")
     try:
@@ -171,6 +182,11 @@ def main(username, password):
     print('正在为您打卡')
     try:
         res = dk.post()
+        if sckey:
+            title = u'打卡成功'
+            content = '\n'
+            data = {'text':title, 'desp':content}
+            requests.post(f'http://sc.ftqq.com/{sckey}.send',data)
         if str(res['e']) == '0':
             print('已为您打卡成功！')
         else:
@@ -180,6 +196,11 @@ def main(username, password):
             else:
                 raise Exception
     except Exception:
+        if sckey:
+            title = u'打卡失败'
+            content = '数据提交失败'
+            data = {'text':title, 'desp':content}
+            requests.post(f'http://sc.ftqq.com/{sckey}.send',data)
         print('数据提交失败')
         raise Exception
 
@@ -187,7 +208,9 @@ def main(username, password):
 if __name__ == "__main__":
     username = sys.argv[1]
     password = sys.argv[2]
+    if len(sys.argv) == 4:
+        sckey = sys.argv[3]
     try:
-        main(username, password)
+        main(username, password, sckey)
     except Exception:
         exit(1)
