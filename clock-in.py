@@ -75,7 +75,7 @@ class ClockIn(object):
         """Get hitcard info, which is the old info with updated new time."""
         if not html:
             res = self.sess.get(self.BASE_URL, headers=self.HEADERS)
-            html = res.content.decode()
+            s = res.content.decode()
 
         try:
             old_infos = re.findall(r'oldInfo: ({[^\n]+})', str(html))
