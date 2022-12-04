@@ -34,7 +34,7 @@ class ClockIn(object):
         self.password = password
         self.sckey = sckey
         self.sess = requests.Session()
-        self.ocr = ddddocr.DdddOcr()
+        # self.ocr = ddddocr.DdddOcr()
 
     def login(self):
         """Login to ZJU platform"""
@@ -127,7 +127,7 @@ class ClockIn(object):
         new_info['jcqzrq'] = ""
         new_info['gwszdd'] = ""
         new_info['szgjcs'] = ""
-        new_info['verifyCode'] = self.get_captcha()
+        # new_info['verifyCode'] = self.get_captcha()
 
         # 2021.08.05 Fix 2
         magics = re.findall(r'"([0-9a-f]{32})":\s*"([^\"]+)"', str(html))
